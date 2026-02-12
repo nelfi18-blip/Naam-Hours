@@ -1,67 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { authenticateUser, fetchProjects, saveHistory } from './api';
-import './styles.css';
+import React, { useState } from 'react';
+import { generatePayslipPDF } from './utils/pdfUtils'; // Utility function for PDF generation
 
-const NaamApp = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [projects, setProjects] = useState([]);
-    const [selectedProject, setSelectedProject] = useState('');
-    const [clockedIn, setClockedIn] = useState(false);
-    const [history, setHistory] = useState([]);
-
-    useEffect(() => {
-        (async () => {
-            const userAuthenticated = await authenticateUser();
-            setIsAuthenticated(userAuthenticated);
-            if (userAuthenticated) {
-                const userProjects = await fetchProjects();
-                setProjects(userProjects);
-                getHistory(); // Fetch user's clock in/out history
-            }
-        })();
-    }, []);
-
-    const getHistory = async () => {
-        const userHistory = await fetchHistory();
-        setHistory(userHistory);
+function NaamApp() {
+    const [employees, setEmployees] = useState([]);
+    const [payments, setPayments] = useState([]);
+    const [salary, setSalary] = useState(0);
+    
+    const addEmployee = (employee) => {
+        setEmployees([...employees, employee]);
     };
 
-    const handleClockInOut = () => {
-        if (clockedIn) {
-            saveTime('out');
-        } else {
-            saveTime('in');
-        }
-        setClockedIn(!clockedIn);
+    const manageSalary = (employeeId, newSalary) => {
+        setEmployees(employees.map(emp => emp.id === employeeId ? { ...emp, salary: newSalary } : emp));
     };
 
-    const saveTime = async (type) => {
-        const timestamp = new Date().toISOString();
-        await saveHistory({ project: selectedProject, type, timestamp });
-        getHistory(); // Refresh history
+    const recordPayment = (payment) => {
+        setPayments([...payments, payment]);
+    };
+
+    const viewPaymentHistory = (employeeId) => {
+        return payments.filter(payment => payment.employeeId === employeeId);
+    };
+
+    const generatePayslip = (employeeId) => {
+        const paymentHistory = viewPaymentHistory(employeeId);
+        generatePayslipPDF(paymentHistory);
     };
 
     return (
-        <div className={darkMode ? 'dark-mode' : ''}>
-            <h1>Time Tracking App</h1>
-            {isAuthenticated ? (
-                <div>
-                    <select onChange={(e) => setSelectedProject(e.target.value)}>
-                        {projects.map((project) => (<option key={project.id} value={project.id}>{project.name}</option>))}
-                    </select>
-                    <button onClick={handleClockInOut}>{clockedIn ? 'Clock Out' : 'Clock In'}</button>
-                    <h2>History</h2>
-                    <ul>
-                        {history.map((entry) => (
-                            <li key={entry.timestamp}>{entry.project} - {entry.type} at {new Date(entry.timestamp).toLocaleString()}</li>
-                        ))}
-                    </ul>
-                </div>
-            ) : (
-                <p>Please log in to access the app.</p>
-            )}
+        <div>
+            <h1>Payroll Management</h1>
+            {/* Components for adding employees, managing salaries, and recording payments go here */}
         </div>
     );
-};
+}
 
 export default NaamApp;
