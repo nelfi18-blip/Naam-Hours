@@ -1,44 +1,67 @@
-import React, { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import { Camera, Clock, CheckCircle, Home, MapPin } from 'lucide-react';
-
-// Conexión segura
-const supabase = createClient(
-  process.env.REACT_APP_SUPABASE_URL, 
-  process.env.REACT_APP_SUPABASE_ANON_KEY
-);
+import React, { useState, useEffect } from 'react';
+import { authenticateUser, fetchProjects, saveHistory } from './api';
+import './styles.css';
 
 const NaamApp = () => {
-  const [msg, setMsg] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [projects, setProjects] = useState([]);
+    const [selectedProject, setSelectedProject] = useState('');
+    const [clockedIn, setClockedIn] = useState(false);
+    const [history, setHistory] = useState([]);
 
-  const handleClockIn = async () => {
-    const { error } = await supabase.from('asistencia').insert([
-      { empleado: 'Nelfi Alvarado', proyecto_id: null, ubicacion: 'Nantucket' }
-    ]);
-    if (error) setMsg("Error al conectar");
-    else setMsg("¡Entrada registrada con éxito!");
-  };
+    useEffect(() => {
+        (async () => {
+            const userAuthenticated = await authenticateUser();
+            setIsAuthenticated(userAuthenticated);
+            if (userAuthenticated) {
+                const userProjects = await fetchProjects();
+                setProjects(userProjects);
+                getHistory(); // Fetch user's clock in/out history
+            }
+        })();
+    }, []);
 
-  return (
-    <div className="min-h-screen bg-slate-50 p-6 flex flex-col items-center justify-center font-sans">
-      <h1 className="text-4xl font-black text-slate-800 mb-2">NAAM</h1>
-      <p className="text-slate-500 mb-8 uppercase text-xs tracking-widest font-bold">Finish Carpentry</p>
-      
-      <button 
-        onClick={handleClockIn}
-        className="w-full max-w-xs bg-slate-900 text-white py-6 rounded-[32px] shadow-2xl font-black text-xl active:scale-95 transition-all mb-4"
-      >
-        MARCAR ENTRADA
-      </button>
+    const getHistory = async () => {
+        const userHistory = await fetchHistory();
+        setHistory(userHistory);
+    };
 
-      {msg && <p className="text-blue-600 font-bold animate-pulse">{msg}</p>}
+    const handleClockInOut = () => {
+        if (clockedIn) {
+            saveTime('out');
+        } else {
+            saveTime('in');
+        }
+        setClockedIn(!clockedIn);
+    };
 
-      <div className="mt-10 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm flex items-center gap-2">
-        <MapPin size={16} className="text-slate-400" />
-        <span className="text-slate-400 text-sm font-medium">Nantucket, MA</span>
-      </div>
-    </div>
-  );
+    const saveTime = async (type) => {
+        const timestamp = new Date().toISOString();
+        await saveHistory({ project: selectedProject, type, timestamp });
+        getHistory(); // Refresh history
+    };
+
+    return (
+        <div className={darkMode ? 'dark-mode' : ''}>
+            <h1>Time Tracking App</h1>
+            {isAuthenticated ? (
+                <div>
+                    <select onChange={(e) => setSelectedProject(e.target.value)}>
+                        {projects.map((project) => (<option key={project.id} value={project.id}>{project.name}</option>))}
+                    </select>
+                    <button onClick={handleClockInOut}>{clockedIn ? 'Clock Out' : 'Clock In'}</button>
+                    <h2>History</h2>
+                    <ul>
+                        {history.map((entry) => (
+                            <li key={entry.timestamp}>{entry.project} - {entry.type} at {new Date(entry.timestamp).toLocaleString()}</li>
+                        ))}
+                    </ul>
+                </div>
+            ) : (
+                <p>Please log in to access the app.</p>
+            )}
+        </div>
+    );
 };
 
 export default NaamApp;
