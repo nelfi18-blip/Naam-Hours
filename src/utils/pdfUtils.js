@@ -197,10 +197,17 @@ export const exportToCSV = (data, filename) => {
   data.forEach(row => {
     const values = headers.map(header => {
       const value = row[header]
-      // Escape commas and quotes
+      
+      // Handle null/undefined values
+      if (value === null || value === undefined) {
+        return ''
+      }
+      
+      // Escape commas and quotes for string values
       if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
         return `"${value.replace(/"/g, '""')}"`
       }
+      
       return value
     })
     csv += values.join(',') + '\n'

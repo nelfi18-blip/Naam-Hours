@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Download, Upload, Database, Calendar, Trash2 } from 'lucide-react'
 import { createBackup, listBackups, exportBackup, deleteBackup, importBackup } from '../../utils/backupUtils'
 import { format } from 'date-fns'
@@ -12,7 +12,7 @@ export default function Backup() {
     setBackups(backupList)
   }
 
-  useState(() => {
+  useEffect(() => {
     loadBackups()
   }, [])
 
