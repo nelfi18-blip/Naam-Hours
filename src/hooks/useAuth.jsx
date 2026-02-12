@@ -18,6 +18,20 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Check for demo mode first
+    const demoUser = localStorage.getItem('demo-user')
+    if (demoUser) {
+      try {
+        const parsedUser = JSON.parse(demoUser)
+        setUser(parsedUser)
+        setUserRole(parsedUser.user_metadata?.role || ROLES.ADMIN)
+        setLoading(false)
+        return
+      } catch (e) {
+        localStorage.removeItem('demo-user')
+      }
+    }
+
     // Check active sessions and sets the user
     const initAuth = async () => {
       const { user: currentUser } = await getCurrentUser()
@@ -57,6 +71,13 @@ export const AuthProvider = ({ children }) => {
     userRole,
     loading,
     signOut: async () => {
+      // Check if demo mode
+      if (localStorage.getItem('demo-user')) {
+        localStorage.removeItem('demo-user')
+        window.location.reload()
+        return
+      }
+      
       await supabase.auth.signOut()
       setUser(null)
       setUserRole(ROLES.EMPLOYEE)

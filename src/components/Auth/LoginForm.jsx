@@ -9,6 +9,17 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const handleDemoLogin = () => {
+    // Demo mode - creates a fake session
+    const demoUser = {
+      id: 'demo-user',
+      email: 'demo@naamhours.com',
+      user_metadata: { full_name: 'Usuario Demo', role: 'admin' }
+    }
+    localStorage.setItem('demo-user', JSON.stringify(demoUser))
+    window.location.reload()
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
@@ -154,6 +165,28 @@ export default function LoginForm() {
               )}
             </button>
           </form>
+
+          {isLogin && (
+            <div className="mt-4">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                    O prueba el modo demo
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleDemoLogin}
+                className="w-full mt-4 btn btn-secondary py-3 font-semibold"
+              >
+                🚀 Acceder en Modo Demo
+              </button>
+            </div>
+          )}
 
           <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             <p>
