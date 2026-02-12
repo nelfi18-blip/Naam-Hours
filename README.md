@@ -76,6 +76,21 @@
 - **date-fns** - Manejo de fechas
 - **lucide-react** - Iconos
 
+## 🌐 Link de Acceso Rápido
+
+**URL de la aplicación:** 👉 **http://localhost:3000**
+
+Para iniciar:
+```bash
+npm run dev
+```
+
+Luego abre tu navegador en **http://localhost:3000** y haz clic en "🚀 Acceder en Modo Demo"
+
+📖 **[Ver guía completa de acceso →](COMO_ABRIR.md)**
+
+---
+
 ## 📦 Instalación
 
 ### Prerequisitos
