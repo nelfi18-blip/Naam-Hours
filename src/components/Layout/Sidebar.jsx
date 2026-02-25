@@ -1,6 +1,6 @@
 import { 
   Home, Clock, DollarSign, Users, FileText, Bell, 
-  Database, BarChart3, X 
+  Database, BarChart3, X, Video 
 } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 import { ROLES } from '../../utils/authUtils'
@@ -11,6 +11,7 @@ export default function Sidebar({ isOpen, onClose, currentView, onViewChange }) 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home, roles: [ROLES.ADMIN, ROLES.SUPERVISOR, ROLES.EMPLOYEE] },
     { id: 'marcajes', label: 'Marcajes', icon: Clock, roles: [ROLES.ADMIN, ROLES.SUPERVISOR, ROLES.EMPLOYEE] },
+    { id: 'meetyoulive', label: 'MeetYouLive', icon: Video, roles: [ROLES.ADMIN, ROLES.SUPERVISOR, ROLES.EMPLOYEE] },
     { id: 'cobros', label: 'Cobros', icon: DollarSign, roles: [ROLES.ADMIN, ROLES.SUPERVISOR] },
     { id: 'pagos', label: 'Pagos', icon: Users, roles: [ROLES.ADMIN, ROLES.SUPERVISOR] },
     { id: 'reportes', label: 'Reportes', icon: BarChart3, roles: [ROLES.ADMIN, ROLES.SUPERVISOR] },

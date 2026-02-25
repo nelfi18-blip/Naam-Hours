@@ -10,6 +10,7 @@ import Reportes from './components/Reportes/Reportes'
 import Notificaciones from './components/Notificaciones/Notificaciones'
 import Empleados from './components/Empleados/Empleados'
 import Backup from './components/Backup/Backup'
+import MeetYouLive from './components/MeetYouLive/MeetYouLive'
 
 function AppContent() {
   const { user, loading } = useAuth()
@@ -48,6 +49,8 @@ function AppContent() {
         return <Empleados />
       case 'backup':
         return <Backup />
+      case 'meetyoulive':
+        return <MeetYouLive />
       default:
         return <Dashboard />
     }

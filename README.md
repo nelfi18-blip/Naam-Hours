@@ -65,12 +65,20 @@
 10. **Gestión de Empleados**
     - Placeholder para gestión de empleados
 
+11. **🆕 Integración MeetYouLive**
+    - Video conferencias integradas
+    - Crear reuniones rápidas
+    - Programar reuniones
+    - Gestionar salas de reunión
+    - 📖 [Ver documentación completa](MEETYOULIVE_INTEGRATION.md)
+
 ## 🛠️ Tecnologías
 
 - **React 18+** - Framework UI
 - **Vite** - Build tool
 - **Tailwind CSS** - Estilos
 - **Supabase** - Backend y autenticación
+- **MeetYouLive** - Video conferencias (opcional)
 - **jsPDF & jspdf-autotable** - Generación de PDFs
 - **Chart.js & react-chartjs-2** - Gráficos
 - **date-fns** - Manejo de fechas
