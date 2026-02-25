@@ -5,6 +5,19 @@
   <p>Aplicación profesional construida con React, Supabase y Tailwind CSS</p>
 </div>
 
+## 🚨 ¿El Programa No Abre?
+
+**👉 [SOLUCIÓN AQUÍ - SOLUCION_PROBLEMAS.md →](SOLUCION_PROBLEMAS.md)**
+
+Si el programa no abre, probablemente necesitas:
+1. Instalar dependencias: `npm install`
+2. Crear archivo .env: `cp .env.example .env`
+3. Iniciar servidor: `npm run dev`
+
+**Solución completa paso a paso en [SOLUCION_PROBLEMAS.md](SOLUCION_PROBLEMAS.md)**
+
+---
+
 ## 📖 ¿Cómo lo Hago? - Guía Completa
 
 **👉 [LEE LA GUÍA COMPLETA DE USO →](GUIA_USO.md)**
