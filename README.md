@@ -5,6 +5,21 @@
   <p>Aplicación profesional construida con React, Supabase y Tailwind CSS</p>
 </div>
 
+## 📖 ¿Cómo lo Hago? - Guía Completa
+
+**👉 [LEE LA GUÍA COMPLETA DE USO →](GUIA_USO.md)**
+
+Esta guía te muestra paso a paso cómo usar TODAS las funcionalidades:
+- ✅ Cómo iniciar la aplicación
+- ✅ Cómo usar cada módulo (Dashboard, Marcajes, Cobros, Pagos, etc.)
+- ✅ Cómo configurar MeetYouLive
+- ✅ Solución a problemas comunes
+- ✅ Mejores prácticas y consejos
+
+**Inicio rápido:** `./quick-start.sh` → Abre http://localhost:3000 → Click "🚀 Acceder en Modo Demo"
+
+---
+
 ## 🚀 Características
 
 ### ✅ Características Implementadas
